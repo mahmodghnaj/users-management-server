@@ -2,7 +2,7 @@
 
 ## Overview
 
-Provide a simple solution to monitor real-time events for user logins and logouts on a platform using Nest.js. This is achieved by leveraging WebSockets for instant communication.
+Develop an efficient solution for tracking and observing user activities, specifically focusing on real-time monitoring of login and logout events within a platform. The implementation utilizes Nest.js and harnesses the power of WebSockets to enable instantaneous communication, ensuring a seamless and responsive user activity tracking system.
 
 ## Key Features:
 
