@@ -1,8 +1,10 @@
 import {
   HttpException,
+  Inject,
   Injectable,
   InternalServerErrorException,
   UnauthorizedException,
+  forwardRef,
 } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { AuthEmailLoginDto } from './dto/auth-login.dto';
@@ -29,6 +31,7 @@ import { SessionDocument } from '../session/schemas/session.schema';
 @Injectable()
 export class AuthService {
   constructor(
+    @Inject(forwardRef(() => UsersService))
     private usersService: UsersService,
     private configService: ConfigService,
     private jwtService: JwtService,
@@ -57,6 +60,7 @@ export class AuthService {
     const { token, refreshToken, tokenExpires } = await this.getTokensData({
       id: user.id,
       sessionId: session.id,
+      roles: user.roles,
     });
     return {
       token,
@@ -189,6 +193,7 @@ export class AuthService {
       {
         id: user.id,
         sessionId: sessionId,
+        roles: user.roles,
       },
       oldRefreshTokenArray,
     );
@@ -222,6 +227,7 @@ export class AuthService {
       {
         id: user.id,
         sessionId: payload.sessionId,
+        roles: user.roles,
       },
       oldRefreshTokenArray,
     );
@@ -291,6 +297,7 @@ export class AuthService {
       {
         id: user.id,
         sessionId: sessionId,
+        roles: user.roles,
       },
       oldRefreshTokenArray,
     );
@@ -381,6 +388,16 @@ export class AuthService {
       sessionId = session.id;
     }
     return { sessionId, oldRefreshTokenArray };
+  }
+  async verifyAccessToken(accessToken: string): Promise<JwtPayloadType> {
+    try {
+      const payload = await this.jwtService.verify(accessToken, {
+        secret: this.configService.getOrThrow('auth.secret', { infer: true }),
+      });
+      return payload;
+    } catch (err) {
+      return null;
+    }
   }
   //
   setCookie(

@@ -22,4 +22,6 @@ export class CreateUserDto {
   hash?: string | null;
   socialId?: string;
   socialType?: string;
+  ConnectionStatus?: string;
+  lastSeenAt?: string;
 }

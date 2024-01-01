@@ -8,6 +8,14 @@ export enum StatusEnum {
   'active' = 1,
   'inactive' = 2,
 }
+export enum connectionStatusEnum {
+  'online' = 1,
+  'offline' = 2,
+}
+export enum RoleEnum {
+  'Admin' = 'admin',
+  'User' = 'user',
+}
 @Schema({ timestamps: true })
 export class Users {
   @Prop({ required: true })
@@ -30,6 +38,12 @@ export class Users {
   socialId: string;
   @Prop({})
   socialType: string;
+  @Prop({})
+  roles: RoleEnum[];
+  @Prop({ enum: connectionStatusEnum, default: 2 })
+  connectionStatus: connectionStatusEnum;
+  @Prop({ type: Date })
+  lastSeenAt: Date | null;
 }
 export const UsersSchema = SchemaFactory.createForClass(Users);
 

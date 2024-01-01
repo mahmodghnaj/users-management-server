@@ -16,6 +16,7 @@ import { SessionModule } from './modules/session/session.module';
 import { MailerModule } from './modules/mailer/mailer.module';
 import { MailModule } from './modules/mail/Mail.module';
 import MailConfig from './config/mail.config';
+import { AppGateway } from './app.gateway';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -56,6 +57,7 @@ import MailConfig from './config/mail.config';
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
     },
+    AppGateway,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { JwtModule, JwtService } from '@nestjs/jwt';
 import { UsersModule } from '../users/users.module';
 import { AuthController } from './auth.controller';
@@ -15,7 +15,7 @@ import { GoogleStrategy } from './strategies/google.strategy';
 
 @Module({
   imports: [
-    UsersModule,
+    forwardRef(() => UsersModule),
     SessionModule,
     ForgotModule,
     MailModule,
@@ -32,5 +32,6 @@ import { GoogleStrategy } from './strategies/google.strategy';
     GithubStrategy,
     GoogleStrategy,
   ],
+  exports: [AuthService],
 })
 export class AuthModule {}

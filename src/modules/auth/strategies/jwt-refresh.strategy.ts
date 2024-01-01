@@ -25,7 +25,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
           // This function is used for different domain scenarios
 
           return req.headers['refresh']; // where domain front same back please replace to  return req.cookies['refreshToken'];
-          // return req.cookies['refreshToken']; // Extract from cookie
+          //return req.cookies['refreshToken']; // Extract from cookie
         } else {
           // Request comes from mobile or any other source
           return ExtractJwt.fromAuthHeaderAsBearerToken()(req); // Extract from request headers
@@ -42,6 +42,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
     const refreshToken = this.getRefreshToken(req);
+
     payload.refreshToken = refreshToken;
 
     return payload;
@@ -49,7 +50,7 @@ export class JwtRefreshStrategy extends PassportStrategy(
   private getRefreshToken(req: Request): string | null | any {
     if (req.headers['user-agent']) {
       return req?.headers?.['refresh'] ?? null;
-      // return req.cookies['refreshToken'];
+      //return req.cookies['refreshToken'];
     } else {
       return ExtractJwt.fromAuthHeaderAsBearerToken()(req);
     }

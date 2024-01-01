@@ -5,6 +5,7 @@ import { NullableType } from 'src/utils/types/nullable.type';
 import { CreateUserDto } from './dto/create-user.dto';
 import { Users, UsersDocument } from './schemas/users.schema';
 import { EntityCondition } from 'src/utils/types/entity-condition.type';
+import { DatePagination } from 'src/utils/infinity-pagination';
 
 @Injectable()
 export class UsersService {
@@ -47,5 +48,41 @@ export class UsersService {
     );
 
     return user;
+  }
+  findManyWithPagination(
+    paginationOptions: IPaginationOptions,
+    name: string,
+  ): Promise<DatePagination<Users>> {
+    const { page, limit, sortBy, sortOrder, total } = paginationOptions;
+    const sortCriteria = {};
+    if (sortBy) {
+      sortCriteria[sortBy] = sortOrder === 'desc' ? -1 : 1;
+    }
+    const nameRegex = new RegExp(name, 'i');
+    const findQuery = this.usersModel
+      .find({
+        $or: [
+          { firstName: { $regex: nameRegex } },
+          { lastName: { $regex: nameRegex } },
+        ],
+      })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .sort(sortCriteria)
+      .exec();
+
+    if (total) {
+      const countQuery = this.usersModel.countDocuments({
+        $or: [
+          { firstName: { $regex: nameRegex } },
+          { lastName: { $regex: nameRegex } },
+        ],
+      });
+      return Promise.all([findQuery, countQuery]).then(([data, totalCount]) => {
+        return { data, total: totalCount };
+      });
+    }
+
+    return findQuery.then((data) => ({ data }));
   }
 }
