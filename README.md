@@ -1,4 +1,4 @@
-# User Login and Logout Monitoring in a Platform
+# User Management and Real-time Monitoring in a Platform
 
 ## Overview
 
@@ -40,3 +40,11 @@ Provide a simple solution to monitor real-time events for user logins and logout
 
 - GitHub Repository: [https://github.com/mahmodghnaj/users-management]
 - Live Demo: [https://users-management-six.vercel.app/]
+
+## Screenshots
+
+<img width="1552" alt="Sign In" src="/1.jpeg">
+
+<img width="1552" alt="User Management " src="/2.jpeg">
+
+<img width="1552" alt="User Management " src="/3.jpeg">
