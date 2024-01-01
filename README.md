@@ -38,7 +38,7 @@ Develop an efficient solution for tracking and observing user activities, specif
 
 ## 📂 Repository and Demo:
 
-- GitHub Repository: [https://github.com/mahmodghnaj/users-management]
+- GitHub Repository Front: [https://github.com/mahmodghnaj/users-management]
 - Live Demo: [https://users-management-six.vercel.app/]
 
 ## Screenshots
